@@ -1,0 +1,24 @@
+void insersorted(stack<int> &s , int n){
+    if(s.empty()|| (!s.empty()&& s.top()<n)){
+        s.push(n);
+        return;
+    }
+       int top=s.top();
+       s.pop();
+       //recursive call
+    insersorted(s,n);
+       
+       s.push(top);
+       
+}
+void sortStack(stack<int> &stack)
+{
+	if(stack.empty()){
+        return;
+    }
+    int num=stack.top();
+    stack.pop();
+    
+    sortStack(stack);
+    insersorted(stack,num);
+}

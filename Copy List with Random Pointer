@@ -1,0 +1,82 @@
+#include <bits/stdc++.h> 
+/*************************************************************
+
+    Following is the LinkedListNode class structure
+
+    template <typename T>   
+    class LinkedListNode
+    {
+        public:
+        T data;
+        LinkedListNode<T> *next;
+        LinkedListNode<T> *random;
+        LinkedListNode(T data)
+        {
+            this->data = data;
+            this->next = NULL;
+        }
+    };
+
+*************************************************************/
+void insertattail(LinkedListNode<int>*&head,LinkedListNode<int> *&tail,int d){
+    LinkedListNode<int> *tem=new LinkedListNode<int>(d);
+        if(head==NULL){
+            head=tem;
+            tail=tem;
+            return;
+        }
+    else{
+        tail->next=tem;
+        tail=tem;
+    } 
+}
+LinkedListNode<int> *cloneRandomList(LinkedListNode<int> *head)
+{
+    //create node
+    LinkedListNode<int>*clonehead=NULL;
+     LinkedListNode<int>*clonetail=NULL;
+    LinkedListNode<int>*temp=head;
+     while(temp!=NULL){
+         insertattail(clonehead,clonetail,temp->data);
+         temp=temp->next;
+     }
+    
+    //add into list
+    LinkedListNode<int> *originalnode=head;
+    LinkedListNode<int> *clonenode=clonehead;
+    while(originalnode!=NULL && clonenode!=NULL){
+        LinkedListNode<int> *Next=originalnode->next;
+        originalnode->next=clonenode;
+        originalnode=Next;
+        
+        Next=clonenode->next;
+        clonenode->next=originalnode;
+        clonenode=Next;
+    }
+    
+    //random pointers
+    temp=head;
+    while(temp!=NULL){
+        if(temp->next!=NULL){
+            temp->next->random=temp->random?temp->random->next:temp->random;
+        }
+       temp=temp->next->next;
+    }
+    
+    //retrive node
+    originalnode=head;
+    clonenode=clonehead;
+    
+    while(originalnode!=NULL && clonenode!=NULL){
+        originalnode->next=clonenode->next;
+        originalnode=originalnode->next;
+        
+        if(originalnode!=NULL){
+           clonenode->next=originalnode->next; 
+        }
+        clonenode=clonenode->next;
+        
+    }
+    return clonehead;
+    
+}

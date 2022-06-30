@@ -1,0 +1,26 @@
+#include <bits/stdc++.h> 
+int solve(int ind,vector<int> &wt,int W,vector<int> &val,vector<vector<int>>&dp)
+{
+    if(ind==0){
+        if(wt[0]<=W){
+            return val[0];
+        }
+        return 0;
+    }
+    if(dp[ind][W]!=-1)return dp[ind][W];
+    int nottake=0+solve(ind-1,wt,W,val,dp);
+    int take=INT_MIN;
+    if(wt[ind]<=W){
+        take=val[ind]+solve(ind-1,wt,W-wt[ind],val,dp);
+    }
+    return dp[ind][W]=max(take,nottake);
+}
+
+
+
+
+int maxProfit(vector<int> &values, vector<int> &weights, int n, int w)
+{
+	vector<vector<int>>dp(n,vector<int>(w+1,-1));
+    return solve(n-1,weights,w,values,dp);
+}

@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+int kthLargest(vector<int>& arr, int size, int K)
+{
+	priority_queue<int,vector<int>,greater<int>>minheap;
+    for(int i=0;i<K;i++){
+        minheap.push(arr[i]);
+    }
+    for(int i=K;i<size;i++){
+        if(arr[i]>minheap.top()){
+            minheap.pop();
+            minheap.push(arr[i]);
+        }
+    }
+    int ans=minheap.top();
+    return ans;
+}
